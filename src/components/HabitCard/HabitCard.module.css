@@ -1,0 +1,11 @@
+.deleteBtn {
+  margin-left: 20px;
+  background-color: brown;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 500ms ease-in-out;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
