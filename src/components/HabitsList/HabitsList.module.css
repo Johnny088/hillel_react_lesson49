@@ -2,3 +2,7 @@
   margin: 0 auto;
   width: 400px;
 }
+
+.list li {
+  margin-bottom: 12px;
+}

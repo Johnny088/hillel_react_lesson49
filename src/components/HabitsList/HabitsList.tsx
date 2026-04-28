@@ -34,7 +34,7 @@ export const HabitsList = () => {
         ) : (
           <>
             <h1>Todays tasks</h1>
-            <ul>
+            <ul className={css.list}>
               {habits.map(habit => (
                 <li key={habit.id}>
                   <HabitCard item={habit} />
