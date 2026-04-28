@@ -22,7 +22,7 @@ export const HabitsList = () => {
 
   useEffect(() => {
     dispatch(getHabitOperation());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={css.container}>

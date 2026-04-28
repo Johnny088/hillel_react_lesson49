@@ -31,11 +31,11 @@ export const deleteHabitOperation = createAsyncThunk<Habit, Habit['id']>(
   },
 );
 
-export const toggleHabitOperation = createAsyncThunk<Habit, Habit['id']>(
+export const toggleHabitOperation = createAsyncThunk<Habit, Habit>(
   'habits/toggleHabit',
-  async (id, { rejectWithValue }) => {
+  async (newHabit, { rejectWithValue }) => {
     try {
-      const habit = await toggleHabit(id);
+      const habit = await toggleHabit(newHabit);
       return habit;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,7 +43,7 @@ export const toggleHabitOperation = createAsyncThunk<Habit, Habit['id']>(
   },
 );
 
-export const addhabitOperation = createAsyncThunk<HabitPost, HabitPost>(
+export const addhabitOperation = createAsyncThunk<Habit, HabitPost>(
   'habits/addHabit',
   async (item, { rejectWithValue }) => {
     try {

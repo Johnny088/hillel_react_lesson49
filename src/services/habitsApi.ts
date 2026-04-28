@@ -13,8 +13,10 @@ export const deleteHabit = async (id: Habit['id']) => {
   return data;
 };
 
-export const toggleHabit = async (id: Habit['id']) => {
-  const { data } = await axios.post<Habit>(`habits/${id}`);
+export const toggleHabit = async (habit: Habit) => {
+  const { data } = await axios.put<Habit>(`habits/${habit.id}`, {
+    isCompleted: !habit.isCompleted,
+  });
   return data;
 };
 

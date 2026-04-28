@@ -1,6 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import type { Habit } from '../../types/types';
 import {
+  addhabitOperation,
   deleteHabitOperation,
   getHabitOperation,
   toggleHabitOperation,
@@ -33,15 +34,19 @@ const habitsSlice = createSlice({
       .addCase(toggleHabitOperation.fulfilled, (state, { payload }) => {
         state.items = state.items.map(item =>
           item.id === payload.id
-            ? { ...item, isCompleted: !payload.isCompleted }
+            ? { ...item, isCompleted: !item.isCompleted }
             : item,
         );
+      })
+      .addCase(addhabitOperation.fulfilled, (state, { payload }) => {
+        state.items.push(payload); // = [...state.items, ...payload]
       })
       .addMatcher(
         isAnyOf(
           getHabitOperation.pending,
           deleteHabitOperation.pending,
           toggleHabitOperation.pending,
+          addhabitOperation.pending,
         ),
         state => {
           state.isLoading = true;
@@ -52,6 +57,7 @@ const habitsSlice = createSlice({
           getHabitOperation.fulfilled,
           deleteHabitOperation.fulfilled,
           toggleHabitOperation.fulfilled,
+          addhabitOperation.fulfilled,
         ),
         state => {
           state.isLoading = false;
@@ -63,6 +69,7 @@ const habitsSlice = createSlice({
           getHabitOperation.rejected,
           deleteHabitOperation.rejected,
           toggleHabitOperation.rejected,
+          addhabitOperation.rejected,
         ),
         state => {
           state.isLoading = false;

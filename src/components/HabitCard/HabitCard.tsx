@@ -13,7 +13,7 @@ interface Props {
 export const HabitCard = ({ item }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const onChangeStatus = (): void => {
-    dispatch(toggleHabitOperation(item.id));
+    dispatch(toggleHabitOperation(item));
   };
 
   const removeHabitHandler = () => {
