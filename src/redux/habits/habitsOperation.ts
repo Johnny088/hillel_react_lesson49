@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { Habit } from '../../types/types';
-import { deleteHabit, fetchHabits } from '../../services/habitsApi';
+import type { Habit, HabitPost } from '../../types/types';
+import {
+  addHabit,
+  deleteHabit,
+  fetchHabits,
+  toggleHabit,
+} from '../../services/habitsApi';
 
 export const getHabitOperation = createAsyncThunk<Habit[], void>(
   'habits/getHabits',
@@ -19,6 +24,30 @@ export const deleteHabitOperation = createAsyncThunk<Habit, Habit['id']>(
   async (id, { rejectWithValue }) => {
     try {
       const habit = await deleteHabit(id);
+      return habit;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const toggleHabitOperation = createAsyncThunk<Habit, Habit['id']>(
+  'habits/toggleHabit',
+  async (id, { rejectWithValue }) => {
+    try {
+      const habit = await toggleHabit(id);
+      return habit;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const addhabitOperation = createAsyncThunk<HabitPost, HabitPost>(
+  'habits/addHabit',
+  async (item, { rejectWithValue }) => {
+    try {
+      const habit = addHabit(item);
       return habit;
     } catch (error) {
       return rejectWithValue(error);

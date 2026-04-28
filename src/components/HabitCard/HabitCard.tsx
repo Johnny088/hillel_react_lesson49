@@ -1,19 +1,23 @@
 import { useDispatch } from 'react-redux';
 import type { Habit } from '../../types/types';
 import css from './HabitCard.module.css';
-import { removeHabit, toggleHabit } from '../../redux/habits/habitsSlice';
+import {
+  deleteHabitOperation,
+  toggleHabitOperation,
+} from '../../redux/habits/habitsOperation';
+import type { AppDispatch } from '../../redux/store';
 
 interface Props {
   item: Habit;
 }
 export const HabitCard = ({ item }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const onChangeStatus = (): void => {
-    dispatch(toggleHabit(item.id));
+    dispatch(toggleHabitOperation(item.id));
   };
 
   const removeHabitHandler = () => {
-    dispatch(removeHabit(item.id));
+    dispatch(deleteHabitOperation(item.id));
   };
   return (
     <>
@@ -21,7 +25,7 @@ export const HabitCard = ({ item }: Props) => {
         {item.title}
         <input
           type="checkbox"
-          checked={item.isChecked}
+          checked={item.isCompleted}
           onChange={onChangeStatus}
         />
       </label>

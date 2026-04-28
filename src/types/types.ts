@@ -1,5 +1,9 @@
 export interface Habit {
   title: string;
-  isChecked: boolean;
+  isCompleted: boolean;
   id: string;
+}
+export interface HabitPost {
+  title: string;
+  isCompleted: boolean;
 }

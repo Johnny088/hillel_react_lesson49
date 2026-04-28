@@ -1,5 +1,74 @@
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import type { Habit } from '../../types/types';
+import {
+  deleteHabitOperation,
+  getHabitOperation,
+  toggleHabitOperation,
+} from './habitsOperation';
 
 interface HabitState {
-  item: Habit[];
+  items: Habit[];
+  isLoading: boolean;
+  isError: boolean;
 }
+
+const initialState: HabitState = {
+  items: [],
+  isLoading: false,
+  isError: false,
+};
+
+const habitsSlice = createSlice({
+  name: 'habits',
+  initialState,
+  reducers: {},
+  extraReducers: builder =>
+    builder
+      .addCase(getHabitOperation.fulfilled, (state, { payload }) => {
+        state.items = payload;
+      })
+      .addCase(deleteHabitOperation.fulfilled, (state, { payload }) => {
+        state.items = state.items.filter(item => item.id !== payload.id);
+      })
+      .addCase(toggleHabitOperation.fulfilled, (state, { payload }) => {
+        state.items = state.items.map(item =>
+          item.id === payload.id
+            ? { ...item, isCompleted: !payload.isCompleted }
+            : item,
+        );
+      })
+      .addMatcher(
+        isAnyOf(
+          getHabitOperation.pending,
+          deleteHabitOperation.pending,
+          toggleHabitOperation.pending,
+        ),
+        state => {
+          state.isLoading = true;
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          getHabitOperation.fulfilled,
+          deleteHabitOperation.fulfilled,
+          toggleHabitOperation.fulfilled,
+        ),
+        state => {
+          state.isLoading = false;
+          state.isError = false;
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          getHabitOperation.rejected,
+          deleteHabitOperation.rejected,
+          toggleHabitOperation.rejected,
+        ),
+        state => {
+          state.isLoading = false;
+          state.isError = true;
+        },
+      ),
+});
+
+export default habitsSlice.reducer;
